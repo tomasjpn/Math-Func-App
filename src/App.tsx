@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './styles/App.css';
-import axios from 'axios';
+import { calculateValues } from './services/localApiCall';
+import { CalculatorForm } from './components/calculatorForm';
 
 interface CalcInput {
   expression: string;
@@ -12,7 +13,7 @@ function App() {
     expression: '',
     x: '',
   });
-  const [result, setResult] = useState('');
+  const [calcResult, setCalcResult] = useState<string>('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     // Getting values from name param Input and save in input useState
@@ -24,40 +25,19 @@ function App() {
   };
 
   const handleCalc = async (): Promise<void> => {
-    try {
-      // Fetching from Fastify-Server
-      const response = await axios.get('http://localhost:3000/v1/calc', {
-        params: {
-          expression: input.expression,
-          x: input.x,
-        },
-      });
-      setResult(response.data);
-      console.log(response.data);
-    } catch (err) {
-      console.error('Error calculating', err);
-      setResult('Error fetching data');
-    }
+    const result = await calculateValues(input.expression, input.x);
+    setCalcResult(result ?? '');
   };
+
   return (
     <>
       <div>
-        <h1>Math Function Calculator</h1>
-        <input
-          type="text"
-          name="expression"
-          value={input.expression}
-          onChange={handleInputChange}
-          placeholder="expression"
+        <CalculatorForm
+          input={input}
+          handleInputChange={handleInputChange}
+          handleCalc={handleCalc}
+          calcResult={calcResult}
         />
-        <input
-          type="text"
-          name="x"
-          value={input.x}
-          onChange={handleInputChange}
-          placeholder="x"
-        />
-        <button onClick={handleCalc}>Calculate</button>
       </div>
     </>
   );
