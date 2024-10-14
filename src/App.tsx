@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import './styles/App.css';
+import { CalculatorForm } from './components/CalculatorForm';
+import FunctionPlotGraph from './components/FunctionPlotGraph';
 import { calculateValues } from './services/localApiCall';
-import { CalculatorForm } from './components/calculatorForm';
+import './styles/App.css';
 
 interface CalcInput {
   expression: string;
@@ -38,6 +39,7 @@ function App() {
           handleCalc={handleCalc}
           calcResult={calcResult}
         />
+        <FunctionPlotGraph expression={input.expression} />
       </div>
     </>
   );
