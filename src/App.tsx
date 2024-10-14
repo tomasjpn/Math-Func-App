@@ -47,9 +47,7 @@ function App() {
           handleCalc={handleCalc}
           calcResult={calcResult}
         />
-        {input.operation === 'calc' && (
-          <FunctionPlotGraph expression={input.expression} />
-        )}
+        <FunctionPlotGraph expression={input.expression} />
       </div>
     </>
   );
