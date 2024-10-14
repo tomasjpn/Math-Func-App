@@ -16,6 +16,8 @@
     "@fastify/cors": "^8.4.1",
     "axios": "^1.7.7",
     "fastify": "^4.24.3",
+    "function-plot": "^1.25.0",
+    "mathjs": "^13.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
