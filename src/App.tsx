@@ -5,18 +5,22 @@ import { calculateValues } from './services/localApiCall';
 import './styles/App.css';
 
 interface CalcInput {
+  operation: string;
   expression: string;
   x?: string;
 }
 
 function App() {
   const [input, setInput] = useState<CalcInput>({
+    operation: 'calc',
     expression: '',
     x: '',
   });
   const [calcResult, setCalcResult] = useState<string>('');
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ): void => {
     // Getting values from name param Input and save in input useState
     const { name, value } = e.target;
     setInput((prevInput) => ({
@@ -26,7 +30,11 @@ function App() {
   };
 
   const handleCalc = async (): Promise<void> => {
-    const result = await calculateValues(input.expression, input.x);
+    const result = await calculateValues(
+      input.operation,
+      input.expression,
+      input.x
+    );
     setCalcResult(result ?? '');
   };
 
@@ -39,7 +47,9 @@ function App() {
           handleCalc={handleCalc}
           calcResult={calcResult}
         />
-        <FunctionPlotGraph expression={input.expression} />
+        {input.operation === 'calc' && (
+          <FunctionPlotGraph expression={input.expression} />
+        )}
       </div>
     </>
   );
