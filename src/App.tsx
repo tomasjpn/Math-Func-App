@@ -1,14 +1,7 @@
 import { useState } from 'react';
 import { CalculatorForm } from './components/CalculatorForm';
 import FunctionPlotGraph from './components/FunctionPlotGraph';
-import DisplayMathRes from './components/utils/DisplayMathRes';
-import {
-  ApiResponseOption,
-  ASTData,
-  CalcResult,
-  calculateValues,
-  TokenizeData,
-} from './services/localApiCall';
+import { ApiResponseOption, calculateValues } from './services/localApiCall';
 import './styles/App.css';
 import styles from './styles/App.module.css';
 
@@ -43,33 +36,7 @@ function App() {
       input.expression,
       input.x
     );
-    if (result) {
-      setCalcResult(result);
-    } else {
-      setCalcResult(null);
-    }
-  };
-
-  const renderResponse = () => {
-    if (!calcResult) return null;
-
-    switch (input.operation) {
-      case 'tokenize':
-        return (
-          <DisplayMathRes
-            data={calcResult as TokenizeData}
-            operation="tokenize"
-          />
-        );
-      case 'ast':
-        return <DisplayMathRes data={calcResult as ASTData} operation="ast" />;
-      case 'calc':
-        return (
-          <DisplayMathRes data={calcResult as CalcResult} operation="calc" />
-        );
-      default:
-        return <pre>{JSON.stringify(calcResult, null, 2)}</pre>;
-    }
+    setCalcResult(result || null);
   };
 
   return (
@@ -82,9 +49,8 @@ function App() {
               input={input}
               handleInputChange={handleInputChange}
               handleCalc={handleCalc}
-              calcResult={calcResult ? JSON.stringify(calcResult) : ''}
+              calcResult={calcResult}
             />
-            <div>{renderResponse()}</div>
           </div>
           <FunctionPlotGraph expression={input.expression} />
         </div>
