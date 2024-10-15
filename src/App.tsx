@@ -19,15 +19,26 @@ function App() {
   });
   const [calcResult, setCalcResult] = useState<ApiResponseOption | null>(null);
 
-  const handleInputChange = (
+  const handleInputChange = async (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ): void => {
+  ): Promise<void> => {
     // Getting values from name param Input and save in input useState
     const { name, value } = e.target;
-    setInput((prevInput) => ({
-      ...prevInput,
+    const newInput = {
+      ...input,
       [name]: value,
-    }));
+    };
+    setInput(newInput);
+
+    // Ensures, that changing the operation will also update the renderResponse
+    if (name === 'operation' && newInput.expression) {
+      const result = await calculateValues(
+        newInput.operation,
+        newInput.expression,
+        newInput.x
+      );
+      setCalcResult(result || null);
+    }
   };
 
   const handleCalc = async (): Promise<void> => {
