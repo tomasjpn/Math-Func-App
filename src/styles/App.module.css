@@ -1,0 +1,22 @@
+.mainDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
+.calculatorForm {
+  flex: 1;
+  max-width: 10%;
+}
+
+.functionPlot {
+  flex: 1;
+  max-width: 15%;
+}
+
+@media (max-width: 768px) {
+  .mainDiv {
+    flex-direction: column;
+  }
+}
