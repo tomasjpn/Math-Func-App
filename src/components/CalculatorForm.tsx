@@ -1,4 +1,6 @@
+import { ApiResponseOption } from '../services/localApiCall';
 import styles from '../styles/CalculatorForm.module.css';
+import DisplayMathRes from './utils/DisplayMathRes';
 
 interface CalcInput {
   operation: string;
@@ -12,7 +14,7 @@ interface CalcFormProperties {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
   handleCalc: () => void;
-  calcResult: string;
+  calcResult: ApiResponseOption | null;
 }
 
 export const CalculatorForm: React.FC<CalcFormProperties> = ({
@@ -21,6 +23,16 @@ export const CalculatorForm: React.FC<CalcFormProperties> = ({
   handleCalc,
   calcResult,
 }) => {
+  const renderResponse = () => {
+    if (!calcResult) return null;
+
+    return (
+      <DisplayMathRes
+        data={calcResult}
+        operation={input.operation as 'tokenize' | 'ast' | 'calc'}
+      />
+    );
+  };
   return (
     <div>
       <div className={styles.mainDiv}>
@@ -50,6 +62,7 @@ export const CalculatorForm: React.FC<CalcFormProperties> = ({
         </select>
         <button onClick={handleCalc}>Enter</button>
       </div>
+      <div>{renderResponse()}</div>
     </div>
   );
 };
