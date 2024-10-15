@@ -3,6 +3,7 @@ import { CalculatorForm } from './components/CalculatorForm';
 import FunctionPlotGraph from './components/FunctionPlotGraph';
 import { calculateValues } from './services/localApiCall';
 import './styles/App.css';
+import styles from './styles/App.module.css';
 
 interface CalcInput {
   operation: string;
@@ -41,13 +42,16 @@ function App() {
   return (
     <>
       <div>
-        <CalculatorForm
-          input={input}
-          handleInputChange={handleInputChange}
-          handleCalc={handleCalc}
-          calcResult={calcResult}
-        />
-        <FunctionPlotGraph expression={input.expression} />
+        <h1>Math Function Calculator</h1>
+        <div className={styles.mainDiv}>
+          <CalculatorForm
+            input={input}
+            handleInputChange={handleInputChange}
+            handleCalc={handleCalc}
+            calcResult={calcResult}
+          />
+          <FunctionPlotGraph expression={input.expression} />
+        </div>
       </div>
     </>
   );

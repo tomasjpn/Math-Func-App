@@ -18,14 +18,14 @@ const FunctionPlotGraph: React.FC<FunctionPlotGraphProps> = ({
 
     const options: FunctionPlotOptions = {
       target: rootElm.current,
-      width: 800,
+      width: 600,
       height: 400,
       yAxis: { domain: [-10, 10] },
       grid: true,
       data: [
         {
           fn: expression || '0',
-          color: 'blue',
+          color: '#3f86ff',
         },
       ],
     };

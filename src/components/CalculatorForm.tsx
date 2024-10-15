@@ -1,3 +1,5 @@
+import styles from '../styles/CalculatorForm.module.css';
+
 interface CalcInput {
   operation: string;
   expression: string;
@@ -21,9 +23,7 @@ export const CalculatorForm: React.FC<CalcFormProperties> = ({
 }) => {
   return (
     <div>
-      {' '}
-      <div>
-        <h1>Math Function Calculator</h1>
+      <div className={styles.mainDiv}>
         <input
           type="text"
           name="expression"
@@ -49,9 +49,8 @@ export const CalculatorForm: React.FC<CalcFormProperties> = ({
           <option value="calc">calculate</option>
         </select>
         <button onClick={handleCalc}>Enter</button>
-
-        <p>{calcResult}</p>
       </div>
+      <p>{calcResult}</p>
     </div>
   );
 };
