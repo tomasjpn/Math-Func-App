@@ -1,7 +1,14 @@
 import { useState } from 'react';
 import { CalculatorForm } from './components/CalculatorForm';
 import FunctionPlotGraph from './components/FunctionPlotGraph';
-import { calculateValues } from './services/localApiCall';
+import DisplayMathRes from './components/utils/DisplayMathRes';
+import {
+  ApiResponseOption,
+  ASTData,
+  CalcResult,
+  calculateValues,
+  TokenizeData,
+} from './services/localApiCall';
 import './styles/App.css';
 import styles from './styles/App.module.css';
 
@@ -17,7 +24,7 @@ function App() {
     expression: '',
     x: '',
   });
-  const [calcResult, setCalcResult] = useState<string>('');
+  const [calcResult, setCalcResult] = useState<ApiResponseOption | null>(null);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -36,7 +43,33 @@ function App() {
       input.expression,
       input.x
     );
-    setCalcResult(result ?? '');
+    if (result) {
+      setCalcResult(result);
+    } else {
+      setCalcResult(null);
+    }
+  };
+
+  const renderResponse = () => {
+    if (!calcResult) return null;
+
+    switch (input.operation) {
+      case 'tokenize':
+        return (
+          <DisplayMathRes
+            data={calcResult as TokenizeData}
+            operation="tokenize"
+          />
+        );
+      case 'ast':
+        return <DisplayMathRes data={calcResult as ASTData} operation="ast" />;
+      case 'calc':
+        return (
+          <DisplayMathRes data={calcResult as CalcResult} operation="calc" />
+        );
+      default:
+        return <pre>{JSON.stringify(calcResult, null, 2)}</pre>;
+    }
   };
 
   return (
@@ -44,12 +77,15 @@ function App() {
       <div>
         <h1>Math Function Calculator</h1>
         <div className={styles.mainDiv}>
-          <CalculatorForm
-            input={input}
-            handleInputChange={handleInputChange}
-            handleCalc={handleCalc}
-            calcResult={calcResult}
-          />
+          <div className={styles.calcFormDiv}>
+            <CalculatorForm
+              input={input}
+              handleInputChange={handleInputChange}
+              handleCalc={handleCalc}
+              calcResult={calcResult ? JSON.stringify(calcResult) : ''}
+            />
+            <div>{renderResponse()}</div>
+          </div>
           <FunctionPlotGraph expression={input.expression} />
         </div>
       </div>
