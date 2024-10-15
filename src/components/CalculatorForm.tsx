@@ -50,7 +50,6 @@ export const CalculatorForm: React.FC<CalcFormProperties> = ({
         </select>
         <button onClick={handleCalc}>Enter</button>
       </div>
-      <p>{calcResult}</p>
     </div>
   );
 };
