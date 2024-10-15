@@ -1,4 +1,5 @@
 import { ASTData, CalcResult, TokenizeData } from '../../services/localApiCall';
+import ASTTree from './ASTTree';
 
 interface DisplayMathResContent {
   data: TokenizeData | ASTData | CalcResult;
@@ -27,9 +28,11 @@ const DisplayMathRes: React.FC<DisplayMathResContent> = ({
 
   const renderAST = (ast?: ASTData) => (
     <div>
-      <h3>Abstract Syntax Tree:</h3>
+      <h3 className="text-lg font-bold mb-2">Abstract Syntax Tree (AST):</h3>
       {ast ? (
-        <pre>{JSON.stringify(ast, null, 2)}</pre>
+        <div>
+          <ASTTree ast={ast} />
+        </div>
       ) : (
         <p>No AST data available</p>
       )}
