@@ -13,28 +13,41 @@ const ASTTree: React.FC<{ ast: ASTData }> = ({ ast }) => {
   useEffect(() => {
     // Creates tree node based on conditions: 'Number' | 'Variable' | 'Operation'
     const createsTreeNode = (node: any): TreeNodeData => {
-      if (node.type === 'Number') {
-        return { name: node.number.toString(), type: node.type, children: [] };
+      // Ensures if node is not existing
+      if (!node) {
+        return { name: 'invalid', type: 'invalid', children: [] };
       }
-      if (node.type === 'Variable') {
-        return { name: node.variableName, type: node.type, children: [] };
+
+      switch (node.type) {
+        case 'Number':
+          return {
+            name: node.number.toString(),
+            type: node.type,
+            children: [],
+          };
+        case 'Variable':
+          return { name: node.variableName, type: node.type, children: [] };
+        case 'Operation':
+          return {
+            name: node.operatorSymbol,
+            type: node.type,
+            children: [
+              createsTreeNode(node.operand1),
+              createsTreeNode(node.operand2),
+            ],
+          };
+        default:
+          // Fallback case: If none of the conditions match -> returns an unknown node
+          return { name: 'Unknown', type: 'Unknown', children: [] };
       }
-      if (node.type === 'Operation') {
-        return {
-          name: node.operatorSymbol,
-          type: node.type,
-          children: [
-            createsTreeNode(node.operand1),
-            createsTreeNode(node.operand2),
-          ],
-        };
-      }
-      // Fallback case: If none of the conditions match -> returns an unknown node
-      return { name: 'Unknown', type: 'Unknown', children: [] };
     };
 
-    // After processing the AST root expression, the treeData state will be updated with the converted tree structure
-    setTreeData(createsTreeNode(ast.rootExpression));
+    if (ast && ast.rootExpression) {
+      // After processing the AST root expression, the treeData state will be updated with the converted tree structure
+      setTreeData(createsTreeNode(ast.rootExpression));
+    } else {
+      setTreeData(null);
+    }
   }, [ast]);
 
   // Single Node in the tree
