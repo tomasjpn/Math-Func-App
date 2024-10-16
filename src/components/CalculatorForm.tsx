@@ -1,6 +1,7 @@
 import { ApiResponseOption } from '../services/localApiCall';
 import styles from '../styles/CalculatorForm.module.css';
 import DisplayMathRes from './utils/DisplayMathRes';
+import RenderMathExpression from './utils/RenderMathExpression';
 
 interface CalcInput {
   operation: string;
@@ -35,6 +36,14 @@ export const CalculatorForm: React.FC<CalcFormProperties> = ({
   };
   return (
     <div>
+      {input.expression && (
+        <div>
+          <h3>Mathematical Expression:</h3>
+          <h2>
+            <RenderMathExpression expression={input.expression} />
+          </h2>
+        </div>
+      )}
       <div className={styles.mainDiv}>
         <input
           type="text"
