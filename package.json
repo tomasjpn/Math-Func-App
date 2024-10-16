@@ -17,15 +17,18 @@
     "axios": "^1.7.7",
     "fastify": "^4.24.3",
     "function-plot": "^1.25.0",
+    "katex": "^0.16.11",
     "mathjs": "^13.2.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-katex": "^3.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
     "@types/node": "^22.7.5",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "@types/react-katex": "^3.0.4",
     "@typescript-eslint/eslint-plugin": "^8.8.1",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "eslint": "^9.12.0",
