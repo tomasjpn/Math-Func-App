@@ -35,16 +35,15 @@ export const CalculatorForm: React.FC<CalcFormProperties> = ({
     );
   };
   return (
-    <div>
-      {input.expression && (
-        <div>
-          <h3>Mathematical Expression:</h3>
-          <h2>
-            <RenderMathExpression expression={input.expression} />
-          </h2>
-        </div>
-      )}
-      <div className={styles.mainDiv}>
+    <div className={styles.rootDiv}>
+      <div className={styles.inputRenderDiv}>
+        <h3>Mathematical Expression:</h3>
+        <h2>
+          <RenderMathExpression expression={input.expression} />
+        </h2>
+      </div>
+
+      <div className={styles.inputDiv}>
         <input
           type="text"
           name="expression"
@@ -71,7 +70,7 @@ export const CalculatorForm: React.FC<CalcFormProperties> = ({
         </select>
         <button onClick={handleCalc}>Enter</button>
       </div>
-      <div>{renderResponse()}</div>
+      <div className={styles.responseDiv}>{renderResponse()}</div>
     </div>
   );
 };

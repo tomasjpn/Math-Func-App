@@ -30,7 +30,7 @@ const DisplayMathRes: React.FC<DisplayMathResContent> = ({
     <div>
       <h3 className="text-lg font-bold mb-2">Abstract Syntax Tree (AST):</h3>
       {ast ? (
-        <div>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
           <ASTTree ast={ast} />
         </div>
       ) : (

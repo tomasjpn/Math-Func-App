@@ -1,16 +1,48 @@
-.mainDiv {
+.rootDiv {
   display: flex;
+  flex-direction: column;
+  height: 100vh;
   overflow: hidden;
 }
 
-.calculatorForm {
-  flex: 1;
-  max-width: 10%;
+.mainDiv {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  height: calc(100vh - 60px);
+  padding: 10px;
+  box-sizing: border-box;
 }
 
-.functionPlot {
-  flex: 1;
-  max-width: 15%;
+.calcFormDiv {
+  width: 50%;
+  min-width: 300px;
+  margin-right: 10px;
+}
+
+.funcGraphDiv {
+  background-color: #f8fafd;
+  border-radius: 20px;
+  border: 2px solid #3f85ff13;
+  flex-grow: 1;
+  overflow-x: hidden;
+}
+
+.funcGraphDiv h2 {
+  color: #1152c4;
+}
+
+.funcGraphRenderDiv {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+  background-color: #ebf1ff;
+  padding: 10px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-radius: 15px;
+  margin-bottom: 1px;
+  border: 2px solid #3f85ff09;
 }
 
 @media (max-width: 768px) {

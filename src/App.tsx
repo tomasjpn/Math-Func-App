@@ -52,8 +52,10 @@ function App() {
 
   return (
     <>
-      <div>
-        <h1>Math Function Calculator</h1>
+      <div className={styles.rootDiv}>
+        <div className={styles.titleDiv}>
+          <h1 style={{ color: '#1349a7' }}>Math Function Calculator</h1>
+        </div>
         <div className={styles.mainDiv}>
           <div className={styles.calcFormDiv}>
             <CalculatorForm
@@ -63,7 +65,12 @@ function App() {
               calcResult={calcResult}
             />
           </div>
-          <FunctionPlotGraph expression={input.expression} />
+          <div className={styles.funcGraphDiv}>
+            <h2>Function Plot Graph</h2>
+            <div className={styles.funcGraphRenderDiv}>
+              <FunctionPlotGraph expression={input.expression} />
+            </div>
+          </div>
         </div>
       </div>
     </>
