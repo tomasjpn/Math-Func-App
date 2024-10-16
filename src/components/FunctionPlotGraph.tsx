@@ -40,7 +40,17 @@ const FunctionPlotGraph: React.FC<FunctionPlotGraphProps> = ({
     }
   }, [expression]);
 
-  return <div ref={rootElm} style={{ width: '800px', height: '400px' }} />;
+  return (
+    <div
+      ref={rootElm}
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        width: '800px',
+        height: '400px',
+      }}
+    />
+  );
 };
 
 export default FunctionPlotGraph;
