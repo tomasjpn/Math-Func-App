@@ -1,30 +1,12 @@
-import cors from '@fastify/cors';
 import axios from 'axios';
 import Fastify from 'fastify';
+import { setupCORS } from './plugins/cors.js';
 
 // Automatically creates protocols for errors
 const fastify = Fastify({ logger: true });
 
-// Register the CORS Plug-in
-fastify.register(cors, {
-  origin: (origin, callback) => {
-    const localhost = [
-      'http://localhost:5173',
-      'http://localhost:5174',
-      'http://127.0.0.1:5173',
-      'http://127.0.0.1:5174',
-    ];
-    // Ensures, that the origin URL is included in the localhost-list
-    if (localhost.indexOf(origin as string) !== -1 || !origin) {
-      callback(null, true);
-      return;
-    }
-    callback(new Error('Not allowed'), false);
-  },
-  // Methods accepted by the server
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true,
-});
+// Register plugings
+setupCORS(fastify);
 
 // GET-request from Endpoint "/v1/calc" -> defintion of the route on the local Fastify-Server
 fastify.get('/v1/:operation', async (request, reply): Promise<void> => {
