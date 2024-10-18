@@ -22,6 +22,8 @@ const setupCORS = async (fastify: FastifyInstance) => {
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
   });
+
+  fastify.log.info('CORS setup completed successfully..');
 };
 
 export { setupCORS };
