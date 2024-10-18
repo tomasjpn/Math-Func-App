@@ -2,6 +2,7 @@ import axios from 'axios';
 import Fastify, { FastifyInstance } from 'fastify';
 import { setupCORS } from './plugins/cors.js';
 import { setupMySQL } from './plugins/databse/mysqlDB.js';
+import { setupCalculationHistory } from './routes/calculationHistory.js';
 
 interface MathObject {
   expression: string;
@@ -15,6 +16,8 @@ const fastify = Fastify({ logger: true });
 // Register plugings
 await setupCORS(fastify);
 await setupMySQL(fastify);
+setupCalculationHistory(fastify);
+fastify.log.info('Calculation history setup completed successfully...');
 
 const insertCalculationToDB = async (
   server: FastifyInstance, // server: Instance of Fastify Server, which creates connection to MySQL

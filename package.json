@@ -14,7 +14,9 @@
   },
   "dependencies": {
     "@fastify/cors": "^8.4.1",
+    "@fastify/mysql": "^5.0.1",
     "axios": "^1.7.7",
+    "dotenv": "^16.4.5",
     "fastify": "^4.24.3",
     "function-plot": "^1.25.0",
     "katex": "^0.16.11",
@@ -25,6 +27,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
+    "@types/dotenv": "^8.2.0",
     "@types/node": "^22.7.5",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
