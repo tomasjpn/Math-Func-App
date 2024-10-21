@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { CalculatorForm } from './components/CalculatorForm';
+import DisplayCalculationHistory from './components/DisplayCalculationHistory';
 import FunctionPlotGraph from './components/FunctionPlotGraph';
 import { ApiResponseOption, calculateValues } from './services/localApiCall';
 import './styles/App.css';
@@ -69,6 +70,9 @@ function App() {
             <h2>Function Plot Graph</h2>
             <div className={styles.funcGraphRenderDiv}>
               <FunctionPlotGraph expression={input.expression} />
+              <div>
+                <DisplayCalculationHistory />
+              </div>
             </div>
           </div>
         </div>

@@ -19,6 +19,14 @@ interface CalcResult {
   processingTimeInMicros: number;
 }
 
+interface CalculationRecord {
+  id: number;
+  expression: string;
+  operation: string;
+  result: string;
+  created_at: string;
+}
+
 // Specifies the Response with TokenizeData | ASTData | CalcResult
 type ApiResponseOption = TokenizeData | ASTData | CalcResult;
 
@@ -41,5 +49,23 @@ const calculateValues = async (
   }
 };
 
-export { calculateValues };
-export type { ASTData, ApiResponseOption, CalcResult, TokenizeData };
+const fetchCalculationHistory = async (): Promise<CalculationRecord[]> => {
+  try {
+    const response = await axios.get(
+      'http://localhost:3000/calculationHistory'
+    );
+    return response.data;
+  } catch (err) {
+    console.error('Error fetching calculation history', err);
+    throw err;
+  }
+};
+
+export { calculateValues, fetchCalculationHistory };
+export type {
+  ASTData,
+  ApiResponseOption,
+  CalcResult,
+  CalculationRecord,
+  TokenizeData,
+};
