@@ -24,6 +24,7 @@ interface CalculationRecord {
   expression: string;
   operation: string;
   result: string;
+  url: string;
   created_at: string;
 }
 

@@ -30,6 +30,7 @@ export const setupMySQL = async (server: FastifyInstance) => {
         expression VARCHAR(255) NOT NULL,
         operation ENUM('resolve', 'tokenize', 'ast', 'calc') NOT NULL,
         result JSON,
+        url TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);

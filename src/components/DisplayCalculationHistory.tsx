@@ -35,7 +35,7 @@ const DisplayCalculationHistory: React.FC = () => {
       <ul>
         {calculationHistory.map((record) => (
           <li key={record.id}>
-            {record.expression} ({record.operation}) ={' '}
+            {record.expression} ({record.operation})
           </li>
         ))}
       </ul>

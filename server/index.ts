@@ -8,6 +8,7 @@ interface MathObject {
   expression: string;
   operation: 'resolve' | 'tokenize' | 'ast' | 'calc';
   result: any;
+  url: string;
 }
 
 // Automatically creates protocols for errors
@@ -24,13 +25,14 @@ const insertCalculationToDB = async (
   mathObj: MathObject // mathObj: expression, operation, result
 ) => {
   try {
-    // INSERT INTO -> table name: mathfunctions; three columns: (expression, operation, result); VALUES: (?,?,?) = placeholder
-    const insertQueryCommand = `INSERT INTO mathfunctions (expression, operation, result) VALUES (?,?,?)`;
+    // INSERT INTO -> table name: mathfunctions; three columns: (expression, operation, result, url); VALUES: (?,?,?,?) = placeholder
+    const insertQueryCommand = `INSERT INTO mathfunctions (expression, operation, result, url) VALUES (?,?,?,?)`;
     // .query -> SQL commands directed to the databse
     await server.mysql.query(insertQueryCommand, [
       mathObj.expression,
       mathObj.operation,
       JSON.stringify(mathObj.result),
+      mathObj.url,
     ]);
     server.log.info('Mathematical calculation inserted to database...');
   } catch (err) {
@@ -44,7 +46,7 @@ fastify.get('/v1/:operation', async (request, reply): Promise<void> => {
   // Operation for different options: 'resolve', 'tokenize', 'ast', 'calc'
   const { operation } = request.params as { operation: string };
   // Reads the URL-parameters of the request f.e.: "/v1/calc?expression=2+2"
-  const { expression, x } = request.query as { expression: string; x: string };
+  const { expression, x } = request.query as { expression: string; x?: string };
 
   fastify.log.info(
     `Request for operation: ${operation} with expression: ${expression}`
@@ -69,8 +71,12 @@ fastify.get('/v1/:operation', async (request, reply): Promise<void> => {
       }
     );
 
+    // Constructing full URL
+    const fullUrl = `${request.protocol}://${request.hostname}${request.url}`;
+    console.log(fullUrl);
+
     console.log(
-      `API response for opertaion: "${operation}": ${JSON.stringify(
+      `API response for operation: "${operation}": ${JSON.stringify(
         response.data
       )}`
     );
@@ -79,6 +85,7 @@ fastify.get('/v1/:operation', async (request, reply): Promise<void> => {
       expression,
       operation: operation as 'resolve' | 'tokenize' | 'ast' | 'calc',
       result: response.data,
+      url: fullUrl,
     });
 
     return reply.send(response.data);
