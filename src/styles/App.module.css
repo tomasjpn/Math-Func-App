@@ -26,15 +26,35 @@
   border: 2px solid #3f85ff13;
   flex-grow: 1;
   overflow-x: hidden;
+  scrollbar-color: #a1c2fa39 rgba(0, 0, 0, 0);
+  scrollbar-width: thin;
 }
 
 .funcGraphDiv h2 {
   color: #1152c4;
 }
 
+.funcGraphDiv::-webkit-scrollbar {
+  display: none;
+}
+
+.funcGraphDiv::-webkit-scrollbar {
+  width: 8px;
+}
+
+.funcGraphDiv::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.funcGraphDiv::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
 .funcGraphRenderDiv {
   display: flex;
   justify-content: center;
+  flex-direction: column;
   margin: 20px;
   background-color: #ebf1ff;
   padding: 10px;
