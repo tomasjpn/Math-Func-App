@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Fastify, { FastifyInstance } from 'fastify';
+import { CONFIG, VALID_OPERATIONS } from './config/config.js';
 import { setupCORS } from './plugins/cors.js';
 import { setupMySQL } from './plugins/databse/mysqlDB.js';
 import { setupCalculationHistory } from './routes/calculationHistory.js';
@@ -53,7 +54,7 @@ fastify.get('/v1/:operation', async (request, reply): Promise<void> => {
   );
 
   // If operation is not valid
-  if (!['resolve', 'tokenize', 'ast', 'calc'].includes(operation)) {
+  if (!VALID_OPERATIONS.includes(operation)) {
     return reply.status(400).send({ error: 'Invalid operation!' });
   }
 
@@ -65,7 +66,7 @@ fastify.get('/v1/:operation', async (request, reply): Promise<void> => {
   try {
     // Fetching the Math-Func-Parser API
     const response = await axios.get(
-      `https://math.oglimmer.de/v1/${operation}`,
+      `${CONFIG.api.mathApiBaseUrl}${operation}`,
       {
         params: { expression, x },
       }
@@ -101,8 +102,13 @@ fastify.get('/v1/:operation', async (request, reply): Promise<void> => {
 const start = async (): Promise<void> => {
   try {
     // Listen to port 3000 requests, host 0000 -> listens to all network interfaces
-    await fastify.listen({ port: 3000, host: '0.0.0.0' });
-    fastify.log.info('Server successfully running on http://localhost:3000');
+    await fastify.listen({
+      port: CONFIG.server.port,
+      host: CONFIG.server.host,
+    });
+    fastify.log.info(
+      `Server successfully running on http://localhost:${CONFIG.server.port}`
+    );
   } catch (err) {
     fastify.log.error('Error starting server: ', err);
     process.exit(1);

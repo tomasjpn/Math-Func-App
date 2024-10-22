@@ -1,8 +1,6 @@
 import fastifyMySQL from '@fastify/mysql';
-import dotenv from 'dotenv';
 import { FastifyInstance } from 'fastify';
-
-dotenv.config(); // Load env variables
+import { CONFIG } from '../../config/config';
 
 declare module 'fastify' {
   interface FastifyInstance {
@@ -17,7 +15,7 @@ export const setupMySQL = async (server: FastifyInstance) => {
     // Register MySQL
     await server.register(fastifyMySQL, {
       promise: true, // Use Promises instead of callbacks
-      connectionString: process.env.MYSQL_CONNECTION_STRING, // connectionString for the database
+      connectionString: CONFIG.db.connectionString, // connectionString for the database
     });
 
     const testConnection = await server.mysql.query('SELECT 1');

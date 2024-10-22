@@ -33,12 +33,19 @@
 
 .inputDiv {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 10px;
   border-radius: 15px;
   flex-wrap: wrap;
   margin: 10px;
+}
+
+.inputDiv input {
+  width: 30vh;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 .inputDiv input,
@@ -69,6 +76,8 @@ input {
   background-color: #3f86ff;
   cursor: pointer;
   transition: border-color 0.25s;
+  width: 12vh;
+  margin-top: 0px;
 }
 .inputDiv button:hover {
   border-color: #ffffff;

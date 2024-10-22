@@ -40,7 +40,7 @@ const DisplayCalculationHistory: React.FC = () => {
         justifyContent: 'center',
       }}
     >
-      <h2>Calculation History : </h2>
+      <h2>Calculation History: </h2>
       <ul
         style={{
           listStyleType: 'none',
