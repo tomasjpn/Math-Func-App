@@ -31,6 +31,8 @@ interface CalculationRecord {
 // Specifies the Response with TokenizeData | ASTData | CalcResult
 type ApiResponseOption = TokenizeData | ASTData | CalcResult;
 
+const BASE_URL = 'http://localhost:3000/';
+
 const calculateValues = async (
   operation: string,
   expression: string,
@@ -38,7 +40,7 @@ const calculateValues = async (
 ): Promise<ApiResponseOption | undefined> => {
   try {
     // Fetching from Fastify-Server
-    const response = await axios.get(`http://localhost:3000/v1/${operation}`, {
+    const response = await axios.get(`${BASE_URL}v1/${operation}`, {
       params: {
         expression,
         x,
@@ -52,9 +54,7 @@ const calculateValues = async (
 
 const fetchCalculationHistory = async (): Promise<CalculationRecord[]> => {
   try {
-    const response = await axios.get(
-      'http://localhost:3000/calculationHistory'
-    );
+    const response = await axios.get(`${BASE_URL}calculationHistory`);
     return response.data;
   } catch (err) {
     console.error('Error fetching calculation history', err);
@@ -62,7 +62,51 @@ const fetchCalculationHistory = async (): Promise<CalculationRecord[]> => {
   }
 };
 
-export { calculateValues, fetchCalculationHistory };
+const deleteCalculationRecord = async (id: number): Promise<void> => {
+  try {
+    const response = await axios.delete(`${BASE_URL}calculationHistory/${id}`);
+    if (response.status !== 200) {
+      throw new Error('Failed to delete record from calculation history ');
+    }
+  } catch (err) {
+    console.error('Error deleting calculation record', err);
+    throw err;
+  }
+};
+
+const updateCalculationRecord = async (
+  id: number,
+  data: {
+    expression: string;
+    operation: 'resolve' | 'tokenize' | 'ast' | 'calc';
+  }
+): Promise<void> => {
+  try {
+    const response = await axios.put(
+      `${BASE_URL}calculationHistory/${id}`,
+      data,
+      {
+        headers: {
+          // Sending to server as JSON
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    if (response.status !== 200) {
+      throw new Error('Failed to update calculation');
+    }
+  } catch (err) {
+    console.error('Error updating calculation record', err);
+    throw err;
+  }
+};
+
+export {
+  calculateValues,
+  deleteCalculationRecord,
+  fetchCalculationHistory,
+  updateCalculationRecord,
+};
 export type {
   ASTData,
   ApiResponseOption,

@@ -1,6 +1,6 @@
 import fastifyMySQL from '@fastify/mysql';
 import { FastifyInstance } from 'fastify';
-import { CONFIG } from '../../config/config';
+import { CONFIG } from '../../config/config.js';
 
 declare module 'fastify' {
   interface FastifyInstance {

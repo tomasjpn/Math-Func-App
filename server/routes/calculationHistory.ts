@@ -6,7 +6,17 @@ interface QueryParams {
   operation?: string; // Operation of the each calculation calculationrecord
 }
 
+interface DeleteInputParams {
+  id: string;
+}
+
+interface UpdateInputParams {
+  expression: string;
+  operation: 'resolve' | 'tokenize' | 'ast' | 'calc';
+}
+
 export const setupCalculationHistory = (fastify: FastifyInstance) => {
+  // Getting Calculation Records from database
   fastify.get(
     '/calculationHistory',
     async (request: FastifyRequest, reply: FastifyReply) => {
@@ -36,6 +46,65 @@ export const setupCalculationHistory = (fastify: FastifyInstance) => {
         reply
           .status(500)
           .send({ error: 'Error fetching calculation history from database' });
+      }
+    }
+  );
+
+  // Delete calculation record from database
+  fastify.delete<{ Params: DeleteInputParams }>(
+    '/calculationHistory/:id',
+    async (request, reply) => {
+      const { id } = request.params;
+
+      try {
+        const [result]: any = await fastify.mysql.query(
+          'DELETE FROM mathfunctions WHERE id = ?',
+          [id]
+        );
+
+        if (result.affectedRows === 0) {
+          return reply.status(404).send({ error: 'Record not found' });
+        }
+
+        reply.send({ success: true });
+      } catch (err) {
+        fastify.log.error(
+          'Error deleting calculation record from database:',
+          err
+        );
+        reply
+          .status(500)
+          .send({ error: 'Error deleting calculation record from database' });
+      }
+    }
+  );
+
+  // Update calculation record from database
+  fastify.put<{ Params: DeleteInputParams; Body: UpdateInputParams }>(
+    '/calculationHistory/:id',
+    async (request, reply) => {
+      const { id } = request.params;
+      const { expression, operation } = request.body;
+
+      try {
+        const [result]: any = await fastify.mysql.query(
+          'UPDATE mathfunctions SET expression = ?, operation = ? WHERE id = ?',
+          [expression, operation, id]
+        );
+
+        if (result.affectedRows === 0) {
+          return reply.status(404).send({ error: 'Record not found' });
+        }
+
+        reply.send({ success: true });
+      } catch (err) {
+        fastify.log.error(
+          'Error updating calculation record in the database:',
+          err
+        );
+        reply
+          .status(500)
+          .send({ error: 'Error updating calculation record in the database' });
       }
     }
   );
