@@ -1,0 +1,19 @@
+.rootDiv button {
+  border: 1px solid transparent;
+  padding: 0.5em 1em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #3f86ff;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  margin-top: 0px;
+}
+.rootDiv button:hover {
+  border-color: #ffffff;
+  background-color: #156afc;
+}
+.rootDiv button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}

@@ -5,6 +5,7 @@ import {
   fetchCalculationHistory,
   updateCalculationRecord,
 } from '../services/localApiCall';
+import styles from './../styles/DisplayCalculationHistory.module.css';
 import { extractXValueFromUrl } from './utils/ExtractXValueFromUrl';
 
 type Operation = 'resolve' | 'tokenize' | 'ast' | 'calc';
@@ -176,6 +177,7 @@ const DisplayCalculationHistory: React.FC<DisplayCalculationHistoryProps> = ({
 
   return (
     <div
+      className={styles.rootDiv}
       style={{
         display: 'flex',
         flexDirection: 'column',
