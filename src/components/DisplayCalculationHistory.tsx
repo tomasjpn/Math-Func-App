@@ -5,11 +5,18 @@ import {
   fetchCalculationHistory,
   updateCalculationRecord,
 } from '../services/localApiCall';
+import { extractXValueFromUrl } from './utils/ExtractXValueFromUrl';
 
 type Operation = 'resolve' | 'tokenize' | 'ast' | 'calc';
 const VALID_OPERATIONS: Operation[] = ['resolve', 'tokenize', 'ast', 'calc'];
 
-const DisplayCalculationHistory: React.FC = () => {
+interface DisplayCalculationHistoryProps {
+  onSelect: (record: CalculationRecord) => void;
+}
+
+const DisplayCalculationHistory: React.FC<DisplayCalculationHistoryProps> = ({
+  onSelect,
+}) => {
   const [calculationHistory, setCalculationHistory] = useState<
     CalculationRecord[]
   >([]);
@@ -37,7 +44,14 @@ const DisplayCalculationHistory: React.FC = () => {
   };
 
   const handleSelect = (record: CalculationRecord) => {
-    // Implementation not available yet
+    /**
+     *  Shared state between CalculatorForm and DisplayCalculation -> managed by App.tsx
+     *  "Select" -> triggered
+     *  handleSelect() is called -> onSelect() will be called afterwards
+     *  The App.tsx updates input state
+     *  CalculatorForm receives the new input values through its props
+     */
+    onSelect(record);
   };
 
   const handleDeleteRecord = async (id: number) => {
@@ -206,7 +220,12 @@ const DisplayCalculationHistory: React.FC = () => {
                   }}
                 >
                   <p style={{ fontWeight: '600', margin: 0 }}>
-                    {record.expression} ({record.operation})
+                    {record.expression} ({record.operation});
+                    {extractXValueFromUrl(record.url) && (
+                      <span style={{ marginLeft: '8px', color: '#1152c4' }}>
+                        x = {extractXValueFromUrl(record.url)};
+                      </span>
+                    )}
                   </p>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center' }}>

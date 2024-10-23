@@ -2,7 +2,12 @@ import { useState } from 'react';
 import { CalculatorForm } from './components/CalculatorForm';
 import DisplayCalculationHistory from './components/DisplayCalculationHistory';
 import FunctionPlotGraph from './components/FunctionPlotGraph';
-import { ApiResponseOption, calculateValues } from './services/localApiCall';
+import { extractXValueFromUrl } from './components/utils/ExtractXValueFromUrl';
+import {
+  ApiResponseOption,
+  calculateValues,
+  CalculationRecord,
+} from './services/localApiCall';
 import './styles/App.css';
 import styles from './styles/App.module.css';
 
@@ -10,6 +15,7 @@ interface CalcInput {
   operation: string;
   expression: string;
   x?: string;
+  url?: string;
 }
 
 function App() {
@@ -17,6 +23,7 @@ function App() {
     operation: 'calc',
     expression: '',
     x: '',
+    url: '',
   });
   const [calcResult, setCalcResult] = useState<ApiResponseOption | null>(null);
 
@@ -51,6 +58,17 @@ function App() {
     setCalcResult(result || null);
   };
 
+  const handleHistorySelect = (record: CalculationRecord) => {
+    const xValue = extractXValueFromUrl(record.url);
+    setInput({
+      expression: record.expression,
+      operation: record.operation,
+      x: xValue || '',
+      url: record.url,
+    });
+    setCalcResult(null); // Reset the result when selecting new expression
+  };
+
   return (
     <>
       <div className={styles.rootDiv}>
@@ -71,7 +89,7 @@ function App() {
             <div className={styles.funcGraphRenderDiv}>
               <FunctionPlotGraph expression={input.expression} />
               <div>
-                <DisplayCalculationHistory />
+                <DisplayCalculationHistory onSelect={handleHistorySelect} />
               </div>
             </div>
           </div>
